@@ -1,11 +1,7 @@
-import { ActionReducerMap, State } from '@ngrx/store';
-import { ticketReducer } from './ticket.reducer';
-import { TicketState } from './ticket.state';
 
-export interface RootState {
-    ticketState: TicketState;
-}
+export * as TicketStoreActions from './ticket.actions';
+export * as TicketStoreState from './ticket.state';
 
-export const actionReducerMap: ActionReducerMap<RootState> = {
-    ticketState: ticketReducer
-};
+export * from './ticket.reducer';
+// export * from './ticket.store.module';
+

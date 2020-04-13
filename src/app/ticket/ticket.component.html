@@ -1,1 +1,20 @@
-<button (click)="loadFunction()">click</button>
+<button (click)="add()">add</button>
+
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>content</th>
+            <th>options</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let ticket of tickets$ | async" >
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.title }}</td>
+            <td>{{ ticket.content }} </td>
+            <td><button (click)="delete(ticket)">Delete</button></td>
+        </tr>
+    </tbody>
+</table>

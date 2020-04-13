@@ -1,16 +1,16 @@
+import { ticketAdapter } from './ticket.state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-// export const selectFeature = (state: AppState) => state.feature;
-
+const {
+    selectIds,
+    selectEntities,
+    selectAll,
+    selectTotal,
+} = ticketAdapter.getSelectors();
 
 export const ticketStore = createFeatureSelector('ticketsStore');
 
-export const selectTicketStore = createSelector(
+export const selectTickets = createSelector(
     ticketStore,
-    ({tickets}) => tickets
-);
-
-export const selectFirst = createSelector(
-    selectTicketStore,
-    (tickets) =>  tickets[0]
+    selectAll
 );

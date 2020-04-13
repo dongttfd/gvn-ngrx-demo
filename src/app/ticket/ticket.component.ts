@@ -1,32 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { LoadTicketsSuccess } from '../store/ticket/ticket.actions';
-import { selectTicketStore, selectFirst } from '../store/ticket/ticket.selectors';
+import { LoadTicketsSuccess, LoadTickets, AddTicket, DeleteTicket } from '../store/ticket/ticket.actions';
+import { HttpClient } from '@angular/common/http';
+import { TicketService } from '../ticket.service';
+import { selectTickets } from '../store/ticket/ticket.selectors';
+import { Observable } from 'rxjs';
+import { Ticket } from '../ticket.model';
+import { loremRandomWords } from '../string';
 
 @Component({
     selector: 'app-ticket',
     templateUrl: './ticket.component.html',
-    styleUrls: ['./ticket.component.css']
+    styleUrls: ['./ticket.component.scss']
 })
 export class TicketComponent implements OnInit {
 
+    tickets$: Observable<Ticket[]>;
+
     constructor(
-        private store: Store<any>
+        private store: Store,
+        private ticketService: TicketService
     ) { }
 
     ngOnInit(): void {
-        this.store.select('ticketsStore')
-            .subscribe(data => console.log(data));
+        this.tickets$ = this.store.select(selectTickets);
+        this.store.dispatch(new LoadTickets());
     }
 
-    loadFunction() {
-        const tickets = [
-            {
-                title: 'title ticket1',
-                content: 'content ticket1'
-            }
-        ];
+    add() {
+        const ticket: Ticket = {
+            title: loremRandomWords(null, null, 5),
+            content: loremRandomWords(null, null, 10),
+        };
+        this.store.dispatch(new AddTicket({ ticket }));
+    }
 
-        this.store.dispatch(new LoadTicketsSuccess({ tickets }));
+    delete(ticket: Ticket) {
+        this.store.dispatch(new DeleteTicket({ id: ticket.id }));
     }
 }
